@@ -41,41 +41,44 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _listOfTaskView() {
-    List tasks = _box!.values.toList();
-    return ListView.builder(
-        itemCount: tasks.length,
-        itemBuilder: (BuildContext _context, int _index) {
-          TaskModel task = TaskModel.fromMap(tasks[_index]);
-          return ListTile(
-            title: Text(
-              task.task,
-              style: TextStyle(
-                  decoration: task.check ? TextDecoration.lineThrough : null,
-                  fontSize: 27),
-            ),
-            subtitle: Text(
-              "${task.time.day.toString()}/${task.time.month.toString()} - ${task.time.hour.toString()}:${task.time.minute.toString()}:${task.time.second.toString()}",
-              style: const TextStyle(fontSize: 15),
-            ),
-            trailing: Icon(
-              task.check ? Icons.check_box_outlined : Icons.check_box_outline_blank,
-            ),
-            onLongPress: () {
-              _box?.deleteAt(_index);
-              setState(() {});
-            },
-            onTap: () {
-              task.check = !task.check;
-              _box?.putAt(
-                _index,
-                task.toMap(),
-              );
-              setState(() {});
-            },
+Widget _listOfTaskView() {
+  List tasks = _box!.values.toList().reversed.toList();
+  return ListView.builder(
+    itemCount: tasks.length,
+    itemBuilder: (BuildContext _context, int _index) {
+      TaskModel task = TaskModel.fromMap(tasks[_index]);
+      return ListTile(
+        title: Text(
+          task.task,
+          style: TextStyle(
+            decoration: task.check ? TextDecoration.lineThrough : null,
+            fontSize: 21,
+            color: task.check ? Colors.grey : Colors.black,
+          ),
+        ),
+        subtitle: Text(
+          "${task.time.day.toString()}/${task.time.month.toString()} ~ ${task.time.hour.toString()}:${task.time.minute.toString()}:${task.time.second.toString()}",
+          style: const TextStyle(fontSize: 12, color: Colors.grey),
+        ),
+        trailing: Icon(
+          task.check ? Icons.check_box_outlined : Icons.check_box_outline_blank,
+        ),
+        onLongPress: () {
+          _box?.deleteAt(tasks.length - 1 - _index);
+          setState(() {});
+        },
+        onTap: () {
+          task.check = !task.check;
+          _box?.putAt(
+            tasks.length - 1 - _index,
+            task.toMap(),
           );
-        });
-  }
+          setState(() {});
+        },
+      );
+    },
+  );
+}
 
   Widget _getAllLists() {
     return FutureBuilder(

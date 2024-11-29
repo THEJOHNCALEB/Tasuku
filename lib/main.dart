@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:tasuku/pages/home_page.dart';
-
+import 'package:tasuku/pages/onboarding.dart';
 void main() async {
   await Hive.initFlutter("hive");
   runApp(const MyApp());
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const Onboarding(),
     );
   }
 }
